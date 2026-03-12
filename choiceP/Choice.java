@@ -16,7 +16,7 @@ public class Choice {
         char choice = sc.next().charAt(0);
         while (choice != 'E') {
             if (choice == 'B') {
-                NewBill.entry();
+                NewBill.entry(sc);
                 break;
             } else if (choice == 'A') {
                 AddProducts.entry();
@@ -37,5 +37,6 @@ public class Choice {
 
             }
         }
+        sc.close();
     }
 }

@@ -4,6 +4,3 @@ addProducts/*.class
 updateProduct/*.class
 newBill/*.class
 choiceP/*.class
-updateProduct/ChangePriceHelper.class
-updateProduct/DeleteProductHelper.class
-updateProduct/updateInventoryHelper.class
