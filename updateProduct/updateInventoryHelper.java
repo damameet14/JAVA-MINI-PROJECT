@@ -15,6 +15,7 @@ public class updateInventoryHelper {
 
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
             String sql = "UPDATE PRODUCTS SET TOTAL_QUANTITY = ? WHERE PRODUCT_NAME = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -22,7 +23,7 @@ public class updateInventoryHelper {
             pstmt.setString(2, PRODUCT_NAME);
             pstmt.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -30,6 +31,7 @@ public class updateInventoryHelper {
     public static void displayUpdatedInventory() {
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
             String sql = "SELECT * FROM PRODUCTS";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -43,7 +45,7 @@ public class updateInventoryHelper {
             }
             System.out.println("-------------------------\n");
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

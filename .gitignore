@@ -1,6 +1,9 @@
 *.class
 JDBCP1.java
-addProducts/*.java
-updateProduct/*.java
-newBill/*.java
-choiceP/*.java
+addProducts/*.class
+updateProduct/*.class
+newBill/*.class
+choiceP/*.class
+updateProduct/ChangePriceHelper.class
+updateProduct/DeleteProductHelper.class
+updateProduct/updateInventoryHelper.class

@@ -11,13 +11,14 @@ public class DeleteProductHelper {
 
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
             String sql = "UPDATE PRODUCTS SET IS_ACTIVE = 0 WHERE PRODUCT_NAME = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, PRODUCT_NAME);
             pstmt.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -25,6 +26,7 @@ public class DeleteProductHelper {
     public static void displayDeletedPrice() {
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
             String sql = "SELECT * FROM PRODUCTS";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -41,7 +43,7 @@ public class DeleteProductHelper {
             }
             System.out.println("-----------------------\n");
             
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
