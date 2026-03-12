@@ -4,35 +4,59 @@ import choiceP.*;
 import java.util.*;
 import java.sql.*;
 
-class NewCustomer {
-    public static void entry() {
-        Scanner sc = new Scanner(System.in);
+class NewCustomer 
+{
+    public static void entry() 
+    {
+        try{
+            Scanner sc = new Scanner(System.in);
+            boolean isSuccess=true;
+            String customerName = new String();
+            String customerPhone= new String();
+            String customerEmail= new String();
+            while(isSuccess)
+            {
+                isSuccess=false;
+                System.out.println("Enter customer name: ");
+                customerName = sc.nextLine();
+                System.out.println("Customer Name: " + customerName);
 
-        System.out.println("Enter customer name: ");
-        String customerName = sc.nextLine();
-        System.out.println("Customer Name: " + customerName);
+                System.out.println("Enter customer phone number: ");
+                customerPhone = sc.nextLine();
+                System.out.println("Customer Name: " + customerName);
+                System.out.println("Customer Phone: " + customerPhone);
 
-        System.out.println("Enter customer phone number: ");
-        String customerPhone = sc.nextLine();
-        System.out.println("Customer Name: " + customerName);
-        System.out.println("Customer Phone: " + customerPhone);
+                System.out.println("Enter customer Email: ");
+                customerEmail = sc.nextLine();
+                System.out.println("Customer Name: " + customerName);
+                System.out.println("Customer Phone: " + customerPhone);
+                System.out.println("Customer Email: " + customerEmail);
+                if(Validate.validateExistingEmail(customerEmail)==true)
+                {
+                    System.out.println("Customer already exists! Please enter details of a new customer");
+                    isSuccess=true;
+                    continue;
+                }
 
-        System.out.println("Enter customer Email: ");
-        String customerEmail = sc.nextLine();
-        System.out.println("Customer Name: " + customerName);
-        System.out.println("Customer Phone: " + customerPhone);
-        System.out.println("Customer Email: " + customerEmail);
+            }
+            InsertCustomerData.insertData(customerName, customerPhone, customerEmail);
+            Choice.choiceEntry();
+            sc.close();
+        }
 
-        InsertCustomerData.insertData(customerName, customerPhone, customerEmail);
-
-        Choice.choiceEntry();
-        sc.close();
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
 
-class InsertCustomerData {
+class InsertCustomerData 
+{
 
-    public static void insertData(String customerName, String customerPhone, String customerEmail) {
+    public static void insertData(String customerName, String customerPhone, String customerEmail) 
+    {
+        
         String dbPath = "JAVA_DATABASE.mdb";
         String url = "jdbc:ucanaccess://" + dbPath;
         try (Connection conn = DriverManager.getConnection(url);
@@ -49,7 +73,7 @@ class InsertCustomerData {
     }
 }
 
-class Validate {
+class Validate {//will return true if the customer already exists
     public static boolean validateExistingEmail(String customerEmail) throws SQLException {
         boolean exist = false;
         int count = 0;
