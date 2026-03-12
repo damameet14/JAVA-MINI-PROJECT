@@ -1,43 +1,45 @@
 package addProducts;
+
 import java.sql.*;
+import java.util.Scanner;
 
 public class AddCategoryHelper {
-    public static void CategoryEntry()
-    {
-         String url = "JAVA_DATABASE.mdb";
-        try 
-        {
+    public static void CategoryEntry() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Product Category Name: ");
+        String PRODUCT_CATEGORY_NAME = sc.nextLine();
+        String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "INSERT INTO PRODUCT_CATEGORY (PRODUCT_CATEGORY_NAME) VALUES (?)"; 
+            String sql = "INSERT INTO PRODUCT_CATEGORY (PRODUCT_CATEGORY_NAME) VALUES (?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString( 1, PRODUCT_CATEGORY_NAME);  
-            pstmt.executeUpdate(sql);
-            
-        } 
-        catch (SQLException e)
-        {
+            pstmt.setString(1, PRODUCT_CATEGORY_NAME);
+            pstmt.executeUpdate();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Add Category Helper placeholder");
     }
-    public static void display()
-    {
-        
-         String url = "JAVA_DATABASE.mdb";
-        try 
-        {
+
+    public static void display() {
+
+        String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM PRODUCT_CATEGORY"; 
+            String sql = "SELECT * FROM PRODUCT_CATEGORY";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.executeQuery(sql);
-            
-        } 
-        catch (SQLException e)
-        {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                System.out.print("Name ");
+                System.out.println(rs.getString("PRODUCT_CATEGORY_NAME"));
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Add Category Helper placeholder");
-        
 
     }
 }
