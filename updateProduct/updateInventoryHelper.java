@@ -1,44 +1,52 @@
-package addProducts;
+package updateProduct;
 
 import java.sql.*;
 import java.util.Scanner;
 
-public class AddCategoryHelper {
-    public static void CategoryEntry() {
+public class updateInventoryHelper {
+    public static void updateInventory() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Entera new  Product Category Name: ");
-        String PRODUCT_CATEGORY_NAME = sc.nextLine();
+
+        System.out.print("Enter Update Quantity: ");
+        int TOTAL_QUANTITY = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Enter Product Name: ");
+        String PRODUCT_NAME = sc.nextLine();
+
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "INSERT INTO PRODUCT_CATEGORY (PRODUCT_CATEGORY_NAME) VALUES (?)";
+            String sql = "UPDATE PRODUCTS SET TOTAL_QUANTITY = ? WHERE PRODUCT_NAME = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, PRODUCT_CATEGORY_NAME);
+            pstmt.setInt(1, TOTAL_QUANTITY);
+            pstmt.setString(2, PRODUCT_NAME);
             pstmt.executeUpdate();
-            System.out.println("category was added successfully");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void display() {
-
+    public static void displayUpdatedInventory() {
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM PRODUCT_CATEGORY";
+            String sql = "SELECT * FROM PRODUCTS";
             PreparedStatement pstmt = conn.prepareStatement(sql);
+
             ResultSet rs = pstmt.executeQuery();
+
+            System.out.println("\n--- Updated Inventory ---");
             while (rs.next()) {
-                System.out.print("Name ");
-                System.out.println(rs.getString("PRODUCT_CATEGORY_NAME"));
+                System.out.println("Product: " + rs.getString("PRODUCT_NAME") +
+                        " | Quantity: " + rs.getInt("TOTAL_QUANTITY"));
             }
+            System.out.println("-------------------------\n");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
