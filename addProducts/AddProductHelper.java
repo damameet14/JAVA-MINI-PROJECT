@@ -9,7 +9,7 @@ public class AddProductHelper {
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM PRODUCT";
+            String sql = "SELECT * FROM PRODUCTS";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.executeQuery();
 
@@ -36,7 +36,7 @@ public class AddProductHelper {
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "INSERT INTO products (PRODUCT_NAME,TOTAL_QUANTITY,PRICE,PRODUCT_CATEGORY_ID,PRODUCT_DESCRIPTION) VALUES (?, ?, ?,?,?)";
+            String sql = "INSERT INTO PRODUCTS (PRODUCT_NAME,TOTAL_QUANTITY,PRICE,PRODUCT_CATEGORY_ID,PRODUCT_DESCRIPTION) VALUES (?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, PRODUCT_NAME);
             pstmt.setInt(2, TOTAL_QUANTITY);
@@ -45,6 +45,7 @@ public class AddProductHelper {
             pstmt.setString(5, PRODUCT_DESCRIPTION);
             pstmt.executeUpdate();
 
+            System.out.println("Product was Added successfully");
         } catch (Exception e) {
             e.printStackTrace();
         }

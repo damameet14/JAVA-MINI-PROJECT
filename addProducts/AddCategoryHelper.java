@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class AddCategoryHelper {
     public static void CategoryEntry() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter Product Category Name: ");
+        System.out.print("Entera new  Product Category Name: ");
         String PRODUCT_CATEGORY_NAME = sc.nextLine();
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
@@ -16,11 +16,10 @@ public class AddCategoryHelper {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, PRODUCT_CATEGORY_NAME);
             pstmt.executeUpdate();
-
+            System.out.println("category was added successfully");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Add Category Helper placeholder");
     }
 
     public static void display() {

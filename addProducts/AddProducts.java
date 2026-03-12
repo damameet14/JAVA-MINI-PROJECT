@@ -4,30 +4,29 @@ import java.util.*;
 
 public class AddProducts {
     public static void categoryProduct() {
+        Scanner sc = new Scanner(System.in);
+
         while (true) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("1. Existing category(n)\n 2. Enter new category(E)\n 3. Add product(A)");
-            System.out.println("Enter your choice: ");
+            System.out.println("\n1.Enter new category(c)\n2.Add product(p)\n3.For Exit From Add Products");
+            System.out.print("Enter your choice: ");
             char choice = sc.next().charAt(0);
-            while (choice == '1' || choice == '2' || choice == '3' || choice == 'n' || choice == 'N' || choice == 'e'
-                    || choice == 'E' || choice == 'a' || choice == 'A') {
-                if (choice == '1' || choice == 'n' || choice == 'N') {
-                    AddCategoryHelper.display();
-                    break;
-                } else if (choice == '2' || choice == 'e' || choice == 'E') {
-                    AddCategoryHelper.CategoryEntry();
-                    break;
-                } else if (choice == '3' || choice == 'a' || choice == 'A') {
-                    AddProductHelper.addProduct();
-                    AddProductHelper.display_product();
-                    break;
-                } else {
-                    System.out.println("Invalid choice");
-                    System.out.println("Enter your choice: ");
-                    choice = sc.next().charAt(0);
-                }
+
+            if (choice == '1' || choice == 'c' || choice == 'C') {
+                AddCategoryHelper.display();
+                AddCategoryHelper.CategoryEntry();
+            } else if (choice == '2' || choice == 'p' || choice == 'P') {
+                AddProductHelper.addProduct();
+                AddProductHelper.display_product();
+
+            } else if (choice == '3' || choice == 'e' || choice == 'E') {
+                System.out.println("Exiting...");
+                break;
+            } else {
+                System.out.println("Invalid choice");
             }
         }
+
+        sc.close();
     }
 
     public static void main(String[] args) {
