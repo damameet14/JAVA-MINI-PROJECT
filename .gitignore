@@ -1,0 +1,6 @@
+*.class
+JDBCP1.java
+addProducts/*.java
+updateProduct/*.java
+newBill/*.java
+choiceP/*.java
