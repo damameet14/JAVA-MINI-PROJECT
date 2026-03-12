@@ -1,9 +1,10 @@
 package addProducts;
 
+import choiceP.*;
 import java.util.*;
 
 public class AddProducts {
-    public static void categoryProduct() {
+    public static void entry() {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
@@ -20,16 +21,13 @@ public class AddProducts {
 
             } else if (choice == '3' || choice == 'e' || choice == 'E') {
                 System.out.println("Exiting...");
+                Choice.entry();
                 break;
             } else {
                 System.out.println("Invalid choice");
             }
         }
 
-        sc.close();
     }
 
-    public static void main(String[] args) {
-        categoryProduct();
-    }
 }
