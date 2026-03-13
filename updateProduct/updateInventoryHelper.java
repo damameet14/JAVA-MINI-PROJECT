@@ -1,12 +1,11 @@
 package updateProduct;
-
 import java.sql.*;
 import java.util.Scanner;
 
-public class updateInventoryHelper {
-    public static void updateInventory() {
-        Scanner sc = new Scanner(System.in);
-
+public class UpdateInventoryHelper{
+    public static void updateInventory(Scanner sc) {
+        System.out.println("do you want to increase or decrease the quantity? (i/d)");
+        char choice = sc.next().charAt(0);
         System.out.print("Enter Update Quantity: ");
         int TOTAL_QUANTITY = sc.nextInt();
         sc.nextLine();
@@ -14,19 +13,40 @@ public class updateInventoryHelper {
         String PRODUCT_NAME = sc.nextLine();
 
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
-        try {
-            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-            Connection conn = DriverManager.getConnection(url);
-            String sql = "UPDATE PRODUCTS SET TOTAL_QUANTITY = ? WHERE PRODUCT_NAME = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, TOTAL_QUANTITY);
-            pstmt.setString(2, PRODUCT_NAME);
-            pstmt.executeUpdate();
-            displayUpdatedInventory(PRODUCT_NAME);
+        if(choice == 'i' || choice == 'I'){
+            try {
+                Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+                Connection conn = DriverManager.getConnection(url);
+                String sql = "UPDATE PRODUCTS SET TOTAL_QUANTITY = TOTAL_QUANTITY + ? WHERE PRODUCT_NAME = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, TOTAL_QUANTITY);
+                pstmt.setString(2, PRODUCT_NAME);
+                pstmt.executeUpdate();
+                displayUpdatedInventory(PRODUCT_NAME);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(choice == 'd' || choice == 'D'){
+            try {
+                Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+                Connection conn = DriverManager.getConnection(url);
+                String sql = "UPDATE PRODUCTS SET TOTAL_QUANTITY = TOTAL_QUANTITY - ? WHERE PRODUCT_NAME = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, TOTAL_QUANTITY);
+                pstmt.setString(2, PRODUCT_NAME);
+                pstmt.executeUpdate();
+                displayUpdatedInventory(PRODUCT_NAME);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Invalid choice");
+            return;
         }
+
+
     }
 
     public static void displayUpdatedInventory(String productName) {

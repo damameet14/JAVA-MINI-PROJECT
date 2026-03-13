@@ -4,9 +4,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class ChangePriceHelper {
-    public static void updatePrice() {
-        Scanner sc = new Scanner(System.in);
-
+    public static void updatePrice(Scanner sc) {
         System.out.print("Enter Update price: ");
         int PRICE = sc.nextInt();
         sc.nextLine();

@@ -4,8 +4,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class DeleteProductHelper {
-    public static void deleteProduct() {
-        Scanner sc = new Scanner(System.in);
+    public static void deleteProduct(Scanner sc) {
         System.out.print("Enter Product Name to delete: ");
         String PRODUCT_NAME = sc.nextLine();
 
