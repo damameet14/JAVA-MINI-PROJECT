@@ -5,6 +5,7 @@ import java.sql.*;
 public class GenerateInvoice {
     public static void entry() {
         generateInvoice();
+        Display.displayGeneratedInvoice();
     }
 
     public static double getTotalAmount() {

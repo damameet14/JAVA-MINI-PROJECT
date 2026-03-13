@@ -31,17 +31,42 @@ public class ProductsData {
             productQuantity = sc.nextInt();
             ProductsData.insertData(productID, productQuantity);
             getOrderLineItemId();
+            Display.displayProductData();
 
-            System.out.println("1. Add More [A]");
-            System.out.println("2. Generate Invoice [I]");
-            char choice = sc.next().charAt(0);
-            if (choice == 'A') {
-                ProductsData.askData(sc);
+            while (true) {
+                System.out.println("\n1. Add More [A]");
+                System.out.println("2. Generate Invoice [I]");
+                char choice = sc.next().charAt(0);
+                if (choice == 'A') {
+                    ProductsData.askData(sc);
+                    break;
 
-            } else if (choice == 'I') {
-                GenerateInvoice.generateInvoice();
+                } else if (choice == 'I') {
+                    GenerateInvoice.entry();
+                    System.out.println("\nContinue [C]");
+                    sc.next();
+                    break;
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
+                }
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void insertData(int productID, int productQuantity) {
+        try (PreparedStatement stmtOrderLineItems = ConnObjClass.connObj().prepareStatement(
+                "INSERT INTO ORDER_LINE_ITEM (PRODUCT_ID, ORDER_ID, QUANTITY, DISCOUNT, UNIT_PRICE, TOTAL_PRICE) VALUES (?, ?, ?, ?, ?, ?)");) {
+            stmtOrderLineItems.setInt(1, productID);
+            stmtOrderLineItems.setInt(2, getOrderID());
+            stmtOrderLineItems.setInt(3, productQuantity);
+            stmtOrderLineItems.setInt(4, 0);
+            stmtOrderLineItems.setInt(5, getPrice(productID));
+            stmtOrderLineItems.setInt(6, getPrice(productID) * productQuantity);
+            stmtOrderLineItems.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,16 +89,6 @@ public class ProductsData {
 
     public static int getOrderID() {
         int orderID = 0;
-        if (orderNotCreated) {
-            try (PreparedStatement stmtOrder = ConnObjClass.connObj().prepareStatement(
-                    "INSERT INTO ORDERS (CUSTOMER_ID) VALUES (?)");) {
-                stmtOrder.setInt(1, CustomerData.getCustomerID());
-                stmtOrder.executeUpdate();
-                orderNotCreated = false;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         try (PreparedStatement stmt = ConnObjClass.connObj().prepareStatement(
                 "SELECT MAX(ORDER_ID) FROM ORDERS");) {
             ResultSet rs = stmt.executeQuery();
@@ -86,33 +101,19 @@ public class ProductsData {
         return orderID;
     }
 
-    public static double getPrice(int productID) {
-        double price = 0;
+    public static int getPrice(int productID) {
+        int price = 0;
         try (PreparedStatement stmt = ConnObjClass.connObj().prepareStatement(
                 "SELECT PRICE FROM PRODUCTS WHERE PRODUCT_ID=?");) {
+            stmt.setInt(1, productID);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                price = rs.getDouble(1);
+                price = rs.getInt(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return price;
-    }
-
-    public static void insertData(int productID, int productQuantity) {
-        try (PreparedStatement stmtOrderLineItems = ConnObjClass.connObj().prepareStatement(
-                "INSERT INTO ORDER_LINE_ITEM (PRODUCT_ID, PRODUCT_QUANTITY, ORDER_ID, UNIT_PRICE, TOTAL_PRICE) VALUES (?, ?, ?, ?, ?)");) {
-            stmtOrderLineItems.setInt(1, productID);
-            stmtOrderLineItems.setInt(2, productQuantity);
-            stmtOrderLineItems.setInt(3, getOrderID());
-            stmtOrderLineItems.setDouble(4, getPrice(productID));
-            stmtOrderLineItems.setDouble(5, getPrice(productID) * productQuantity);
-            stmtOrderLineItems.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
 }

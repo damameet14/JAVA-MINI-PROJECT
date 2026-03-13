@@ -3,4 +3,5 @@ JDBCP1.java
 addProducts/*.class
 updateProduct/*.class
 newBill/*.class
+newBill/newBillHelper/*.class
 choiceP/*.class

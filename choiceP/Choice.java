@@ -1,11 +1,13 @@
 package choiceP;
 
 import newBill.*;
+import newBill.newBillHelper.*;
 import addProducts.*;
 import java.util.*;
 
 public class Choice {
     public static void entry() {
+        Display.clearConsole();
         Scanner sc = new Scanner(System.in);
         // boolean loop = true;
         // while (loop) {

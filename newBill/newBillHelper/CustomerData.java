@@ -13,7 +13,9 @@ public class CustomerData {
         try {
 
             System.out.println("Enter customer name: ");
-            String customerName = sc.nextLine();
+            String firstName = sc.next();
+            String lastName = sc.next();
+            String customerName = firstName + " " + lastName;
 
             boolean isNotValidePhone = true;
             String customerPhone = "";
@@ -43,6 +45,7 @@ public class CustomerData {
             }
             Display.clearConsole();
             CustomerData.insertNewCustomerData(customerName, customerPhone, customerEmail);
+            generateNewOrder();
             Display.displayCustomerData();
             if (Validate.validateExistingCustomer(customerPhone, customerEmail)) {
                 System.out.println("\n-------------------------\nExisting Customer\n-------------------------\n");
@@ -64,7 +67,20 @@ public class CustomerData {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (Validate.isCustomerExist) {
+            customerID = Validate.customerID;
+        }
         return customerID;
+    }
+
+    static void generateNewOrder() {
+        try (PreparedStatement stmt = ConnObjClass.connObj().prepareStatement(
+                "INSERT INTO ORDERS (CUSTOMER_ID) VALUES (?)");) {
+            stmt.setInt(1, getCustomerID());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void insertNewCustomerData(String customerName, String customerPhone, String customerEmail) {
