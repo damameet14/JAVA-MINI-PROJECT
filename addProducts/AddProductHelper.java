@@ -4,18 +4,26 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class AddProductHelper {
-    public static void display() {
+    public static void display(String PRODUCT_NAME) {
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM PRODUCTS";
+            String sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, PRODUCT_NAME);
             ResultSet rs = pstmt.executeQuery();
+            System.out.println("---------------------------------------------------");
+            System.out.println("name\tquantity\tprice\tcategory\tdescription");
+            System.out.println("---------------------------------------------------");
             while (rs.next()) {
-                System.out.print("Name ");
-                System.out.println(rs.getString("PRODUCT_NAME"));
+                System.out.print(rs.getString("PRODUCT_NAME") + "\t");
+                System.out.print(rs.getInt("TOTAL_QUANTITY") + "\t");
+                System.out.print(rs.getInt("PRICE") + "\t");
+                System.out.print(rs.getInt("PRODUCT_CATEGORY_ID") + "\t");
+                System.out.print(rs.getString("PRODUCT_DESCRIPTION") + "\t");
             }
+            System.out.println("---------------------------------------------------");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -23,6 +31,7 @@ public class AddProductHelper {
     }
 
     public static void entry(Scanner sc) {
+        System.out.println();
         sc.nextLine(); // Consume leftover newline from previous input
         System.out.print("Enter Product Name :  ");
         String PRODUCT_NAME = sc.nextLine();
@@ -51,6 +60,7 @@ public class AddProductHelper {
 
         System.out.print("Enter Product Description: ");
         String PRODUCT_DESCRIPTION = sc.nextLine();
+        System.out.println();
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -63,8 +73,8 @@ public class AddProductHelper {
             pstmt.setInt(4, PRODUCT_CATEGORY_ID);
             pstmt.setString(5, PRODUCT_DESCRIPTION);
             pstmt.executeUpdate();
-
-            System.out.println("Product was Added successfully");
+            System.out.println("****************Product was Added successfully****************");
+            display(PRODUCT_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }
