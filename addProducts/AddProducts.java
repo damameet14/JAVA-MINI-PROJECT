@@ -1,38 +1,33 @@
-package AdddProducts;
+package addProducts;
+
+import choiceP.*;
 import java.util.*;
-public class AddProducts
-{
-    public static void entt()
-    {
+
+public class AddProducts {
+    public static void entry() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("1. Existing category(n)\n2. Enter new category\(E)n3. Add product(A)");
-        System.out.println("Enter your choice: ");
-        char choice = sc.next().charAt(0);
-        while(choice == 'E' || choice=='N' || choice = 'A' ||choice == 'e' || choice=='n' || choice = 'a')
-        {
-            if(choice == 'N'||choice == 'n')
-            {
+
+        while (true) {
+            System.out.println("\n1.Enter new category(c)\n2.Add product(p)\n3.For Exit From Add Products");
+            System.out.print("Enter your choice: ");
+            char choice = sc.next().charAt(0);
+
+            if (choice == '1' || choice == 'c' || choice == 'C') {
                 AddCategoryHelper.display();
-                break;
-            }
-            else if(choice == 'E'||choice == 'e')
-            {
                 AddCategoryHelper.CategoryEntry();
+            } else if (choice == '2' || choice == 'p' || choice == 'P') {
+                AddProductHelper.addProduct();
+                AddProductHelper.display_product();
+
+            } else if (choice == '3' || choice == 'e' || choice == 'E') {
+                System.out.println("Exiting...");
+                Choice.entry();
                 break;
-            }
-            else if(choice == 'A'||choice == 'a')
-            {
-                AddCategoryHelper.display();
-            
-                AddProductHelper.entry();
-                break;
-            }
-            else
-            {
+            } else {
                 System.out.println("Invalid choice");
-                System.out.println("Enter your choice: ");
-                choice = sc.next().charAt(0);
             }
         }
+
     }
+
 }

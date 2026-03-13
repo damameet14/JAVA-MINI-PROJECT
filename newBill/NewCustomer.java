@@ -4,61 +4,48 @@ import choiceP.*;
 import java.util.*;
 import java.sql.*;
 
-class NewCustomer 
-{
-    public static void entry() 
-    {
-        try{
-            Scanner sc = new Scanner(System.in);
-            boolean isSuccess=true;
-            String customerName = new String();
-            String customerPhone= new String();
-            String customerEmail= new String();
-            while(isSuccess)
-            {
-                isSuccess=false;
+class NewCustomer {
+    public static void entry(Scanner sc) {
+        try {
+            boolean isNotSuccess = true;
+            while (isNotSuccess) {
+                isNotSuccess = false;
+
                 System.out.println("Enter customer name: ");
-                customerName = sc.nextLine();
-                System.out.println("Customer Name: " + customerName);
+                String customerName = sc.nextLine();
+                ViewCustomerData.displayCustomerData(customerName);
+                ViewCustomerData.clearConsole();
 
                 System.out.println("Enter customer phone number: ");
-                customerPhone = sc.nextLine();
-                System.out.println("Customer Name: " + customerName);
-                System.out.println("Customer Phone: " + customerPhone);
+                String customerPhone = sc.nextLine();
+                ViewCustomerData.displayCustomerData(customerName, customerPhone);
+                ViewCustomerData.clearConsole();
 
                 System.out.println("Enter customer Email: ");
-                customerEmail = sc.nextLine();
-                System.out.println("Customer Name: " + customerName);
-                System.out.println("Customer Phone: " + customerPhone);
-                System.out.println("Customer Email: " + customerEmail);
-                if(Validate.validateExistingEmail(customerEmail)==true)
-                {
-                    System.out.println("Customer already exists! Please enter details of a new customer");
-                    isSuccess=true;
+                String customerEmail = sc.nextLine();
+                ViewCustomerData.displayCustomerData(customerName, customerPhone, customerEmail);
+
+                if (Validate.validateExistingEmail(customerEmail)) {
+                    System.out.println("Customer already exists. Please enter another customer detail");
+                    isNotSuccess = true;
                     continue;
                 }
-
+                InsertCustomerData.insertData(customerName, customerPhone, customerEmail);
             }
-            InsertCustomerData.insertData(customerName, customerPhone, customerEmail);
-            Choice.choiceEntry();
-            sc.close();
-        }
 
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        Choice.entry();
     }
 }
 
-class InsertCustomerData 
-{
+class InsertCustomerData {
 
-    public static void insertData(String customerName, String customerPhone, String customerEmail) 
-    {
-        
+    public static void insertData(String customerName, String customerPhone, String customerEmail) {
         String dbPath = "JAVA_DATABASE.mdb";
         String url = "jdbc:ucanaccess://" + dbPath;
+
         try (Connection conn = DriverManager.getConnection(url);
                 PreparedStatement stmt = conn.prepareStatement(
                         "INSERT INTO CUSTOMER (NAME, MOBILE_NO, EMAIL) VALUES (?, ?, ?)");) {
@@ -73,14 +60,14 @@ class InsertCustomerData
     }
 }
 
-class Validate {//will return true if the customer already exists
+class Validate {
     public static boolean validateExistingEmail(String customerEmail) throws SQLException {
         boolean exist = false;
         int count = 0;
         String dbPath = "JAVA_DATABASE.mdb";
         String url = "jdbc:ucanaccess://" + dbPath;
         Connection conn = DriverManager.getConnection(url);
-        PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM CUSTOMER WHERE EMAIL=?");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CUSTOMER WHERE EMAIL=?");
         stmt.setString(1, customerEmail);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
@@ -90,5 +77,49 @@ class Validate {//will return true if the customer already exists
             exist = true;
 
         return exist;
+    }
+}
+
+class ViewCustomerData {
+    static void formatData() {
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+        System.out.println("Customer Details");
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+        System.out.printf("%5s %30s %20s %20s\n", "ID", "NAME", "PHONE", "EMAIL");
+    }
+
+    public static void displayCustomerData(String customerName) {
+        formatData();
+        System.out.printf("%5s %30s %20s %20s\n", " ", customerName, " ", " ");
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+
+    }
+
+    public static void displayCustomerData(String customerName, String customerPhone) {
+        formatData();
+        System.out.printf("%5s %30s %20s %20s\n", " ", customerName, customerPhone, " ");
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+
+    }
+
+    public static void displayCustomerData(String customerName, String customerPhone, String customerEmail) {
+        formatData();
+        System.out.printf("%5s %30s %20s %20s\n", " ", customerName, customerPhone, customerEmail);
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+
+    }
+
+    public static void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                // "cmd /c cls" is required because cls is a built-in shell command, not an
+                // executable
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
