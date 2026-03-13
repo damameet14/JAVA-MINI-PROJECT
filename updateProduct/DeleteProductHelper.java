@@ -31,6 +31,7 @@ public class DeleteProductHelper {
             String sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = ?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, PRODUCT_NAME);
             ResultSet rs = pstmt.executeQuery();
 
             System.out.println("\n--- Products Status ---");
