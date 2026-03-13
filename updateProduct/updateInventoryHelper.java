@@ -22,20 +22,21 @@ public class updateInventoryHelper {
             pstmt.setInt(1, TOTAL_QUANTITY);
             pstmt.setString(2, PRODUCT_NAME);
             pstmt.executeUpdate();
+            displayUpdatedInventory(PRODUCT_NAME);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void displayUpdatedInventory() {
+    public static void displayUpdatedInventory(String productName) {
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM PRODUCTS";
+            String sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-
+            pstmt.setString(1, productName);
             ResultSet rs = pstmt.executeQuery();
 
             System.out.println("\n--- Updated Inventory ---");
