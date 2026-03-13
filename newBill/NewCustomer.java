@@ -12,17 +12,19 @@ class NewCustomer {
                 isNotSuccess = false;
 
                 System.out.println("Enter customer name: ");
-                String customerName = sc.nextLine();
+                String firstName = sc.next();
+                String lastName = sc.nextLine();
+                String customerName = firstName + " " + lastName;
                 ViewCustomerData.displayCustomerData(customerName);
-                ViewCustomerData.clearConsole();
 
                 System.out.println("Enter customer phone number: ");
                 String customerPhone = sc.nextLine();
-                ViewCustomerData.displayCustomerData(customerName, customerPhone);
                 ViewCustomerData.clearConsole();
+                ViewCustomerData.displayCustomerData(customerName, customerPhone);
 
                 System.out.println("Enter customer Email: ");
                 String customerEmail = sc.nextLine();
+                ViewCustomerData.clearConsole();
                 ViewCustomerData.displayCustomerData(customerName, customerPhone, customerEmail);
 
                 if (Validate.validateExistingEmail(customerEmail)) {
@@ -86,6 +88,8 @@ class ViewCustomerData {
         System.out.println("Customer Details");
         System.out.println("---------------------+---------------------+---------------------+---------------------+");
         System.out.printf("%5s %30s %20s %20s\n", "ID", "NAME", "PHONE", "EMAIL");
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+
     }
 
     public static void displayCustomerData(String customerName) {
