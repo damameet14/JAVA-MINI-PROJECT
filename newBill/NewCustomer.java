@@ -13,18 +13,17 @@ class NewCustomer {
 
                 System.out.println("Enter customer name: ");
                 String customerName = sc.nextLine();
-                System.out.println("Customer Name: " + customerName);
+                ViewCustomerData.displayCustomerData(customerName);
+                ViewCustomerData.clearConsole();
 
                 System.out.println("Enter customer phone number: ");
                 String customerPhone = sc.nextLine();
-                System.out.println("Customer Name: " + customerName);
-                System.out.println("Customer Phone: " + customerPhone);
+                ViewCustomerData.displayCustomerData(customerName, customerPhone);
+                ViewCustomerData.clearConsole();
 
                 System.out.println("Enter customer Email: ");
                 String customerEmail = sc.nextLine();
-                System.out.println("Customer Name: " + customerName);
-                System.out.println("Customer Phone: " + customerPhone);
-                System.out.println("Customer Email: " + customerEmail);
+                ViewCustomerData.displayCustomerData(customerName, customerPhone, customerEmail);
 
                 if (Validate.validateExistingEmail(customerEmail)) {
                     System.out.println("Customer already exists. Please enter another customer detail");
@@ -72,15 +71,55 @@ class Validate {
         stmt.setString(1, customerEmail);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            System.out.println(rs.getInt("CUSTOMER_ID"));
-            System.out.println(rs.getString("NAME"));
-            System.out.println(rs.getString("MOBILE_NO"));
-            System.out.println(rs.getString("EMAIL"));
             count++;
         }
         if (count != 0)
             exist = true;
 
         return exist;
+    }
+}
+
+class ViewCustomerData {
+    static void formatData() {
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+        System.out.println("Customer Details");
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+        System.out.printf("%5s %30s %20s %20s\n", "ID", "NAME", "PHONE", "EMAIL");
+    }
+
+    public static void displayCustomerData(String customerName) {
+        formatData();
+        System.out.printf("%5s %30s %20s %20s\n", " ", customerName, " ", " ");
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+
+    }
+
+    public static void displayCustomerData(String customerName, String customerPhone) {
+        formatData();
+        System.out.printf("%5s %30s %20s %20s\n", " ", customerName, customerPhone, " ");
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+
+    }
+
+    public static void displayCustomerData(String customerName, String customerPhone, String customerEmail) {
+        formatData();
+        System.out.printf("%5s %30s %20s %20s\n", " ", customerName, customerPhone, customerEmail);
+        System.out.println("---------------------+---------------------+---------------------+---------------------+");
+
+    }
+
+    public static void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                // "cmd /c cls" is required because cls is a built-in shell command, not an
+                // executable
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
