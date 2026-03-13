@@ -13,15 +13,15 @@ public class UpdateInventory {
                     || choice == 'E' || choice == 'a' || choice == 'A') {
                 if (choice == '1' || choice == 'n' || choice == 'N') {
                     updateInventoryHelper.updateInventory();
-                    updateInventoryHelper.displayUpdatedInventory();
+                    // updateInventoryHelper.displayUpdatedInventory();
                     break;
                 } else if (choice == '2' || choice == 'e' || choice == 'E') {
                     ChangePriceHelper.updatePrice();
-                    ChangePriceHelper.displayUpdatedPrice();
+                    // ChangePriceHelper.displayUpdatedPrice();
                     break;
                 } else if (choice == '3' || choice == 'a' || choice == 'A') {
                     DeleteProductHelper.deleteProduct();
-                    DeleteProductHelper.displayDeletedPrice();
+                    // DeleteProductHelper.displayDeletedPrice();
                     break;
                 } else {
                     System.out.println("Invalid choice");

@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class AddCategoryHelper {
-    public static void CategoryEntry() {
+    public static void entry() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Entera new  Product Category Name: ");
         String PRODUCT_CATEGORY_NAME = sc.nextLine();

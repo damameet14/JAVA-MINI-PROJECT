@@ -19,7 +19,7 @@ public class AddProductHelper {
         System.out.println("Add Category Helper placeholder");
     }
 
-    public static void addProduct() {
+    public static void entry() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter Product Name: ");
         String PRODUCT_NAME = sc.nextLine();

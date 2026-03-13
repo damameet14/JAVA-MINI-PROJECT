@@ -14,10 +14,10 @@ public class AddProducts {
 
             if (choice == '1' || choice == 'c' || choice == 'C') {
                 AddCategoryHelper.display();
-                AddCategoryHelper.CategoryEntry();
+                AddCategoryHelper.entry();
             } else if (choice == '2' || choice == 'p' || choice == 'P') {
-                AddProductHelper.addProduct();
                 AddProductHelper.display_product();
+                AddProductHelper.entry();
 
             } else if (choice == '3' || choice == 'e' || choice == 'E') {
                 System.out.println("Exiting...");

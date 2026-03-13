@@ -17,32 +17,34 @@ public class DeleteProductHelper {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, PRODUCT_NAME);
             pstmt.executeUpdate();
+            displayDeletedPrice(PRODUCT_NAME);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void displayDeletedPrice() {
+    public static void displayDeletedPrice(String PRODUCT_NAME) {
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             Connection conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM PRODUCTS";
+            String sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = ?";
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
             System.out.println("\n--- Products Status ---");
             while (rs.next()) {
                 try {
-                    System.out.println("Product: " + rs.getString("PRODUCT_NAME") + 
-                                       " | Status (IS_ACTIVE): " + rs.getString("IS_ACTIVE"));
+                    System.out.println("Product: " + rs.getString("PRODUCT_NAME") +
+                            " | Status (IS_ACTIVE): " + rs.getString("IS_ACTIVE"));
                 } catch (SQLException ex) {
                     System.out.println("Product: " + rs.getString("PRODUCT_NAME") + " (Deleted)");
                 }
             }
             System.out.println("-----------------------\n");
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
