@@ -8,18 +8,19 @@ public class AddProducts {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n1.Enter new category(c)\n2.Add product(p)\n3.For Exit From Add Products");
+            System.out.println("\n1.Enter new category(C)\n2.Add product(P)\n3.For Exit From Add Products(E)");
+            System.out.println();
             System.out.print("Enter your choice: ");
             char choice = sc.next().charAt(0);
 
-            if (choice == '1' || choice == 'c' || choice == 'C') {
+            if (choice == 'C' || choice == 'c') {
                 AddCategoryHelper.display();
-                AddCategoryHelper.entry();
-            } else if (choice == '2' || choice == 'p' || choice == 'P') {
-                AddProductHelper.display_product();
-                AddProductHelper.entry();
+                AddCategoryHelper.entry(sc);
+            } else if (choice == 'P' || choice == 'p') {
+                // AddProductHelper.display();
+                AddProductHelper.entry(sc);
 
-            } else if (choice == '3' || choice == 'e' || choice == 'E') {
+            } else if (choice == 'E' || choice == 'e') {
                 System.out.println("Exiting...");
                 Choice.entry();
                 break;

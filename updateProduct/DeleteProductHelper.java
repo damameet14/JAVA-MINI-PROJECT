@@ -4,8 +4,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class DeleteProductHelper {
-    public static void deleteProduct() {
-        Scanner sc = new Scanner(System.in);
+    public static void deleteProduct(Scanner sc) {
         System.out.print("Enter Product Name to delete: ");
         String PRODUCT_NAME = sc.nextLine();
 
@@ -32,6 +31,7 @@ public class DeleteProductHelper {
             String sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = ?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, PRODUCT_NAME);
             ResultSet rs = pstmt.executeQuery();
 
             System.out.println("\n--- Products Status ---");
