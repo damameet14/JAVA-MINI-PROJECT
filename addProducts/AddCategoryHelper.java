@@ -4,9 +4,9 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class AddCategoryHelper {
-    public static void entry() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Entera new  Product Category Name: ");
+    public static void entry(Scanner sc) {
+        sc.nextLine(); // Consume leftover newline from previous input
+        System.out.print("Enter a new Product Category Name: ");
         String PRODUCT_CATEGORY_NAME = sc.nextLine();
         String url = "jdbc:ucanaccess://JAVA_DATABASE.mdb";
         try {
@@ -31,9 +31,14 @@ public class AddCategoryHelper {
             String sql = "SELECT * FROM PRODUCT_CATEGORY";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
+            System.out.println("----------------------------------------------------");
+            System.out.println("\nProduct Category Name\tProduct Category ID");
+            System.out.println("----------------------------------------------------");
             while (rs.next()) {
-                System.out.print("Name ");
-                System.out.println(rs.getString("PRODUCT_CATEGORY_NAME"));
+                System.out.print(rs.getString("PRODUCT_CATEGORY_NAME"));
+                System.out.print("  ");
+                System.out.print(rs.getInt("PRODUCT_CATEGORY_ID"));
+                System.out.println();
             }
 
         } catch (Exception e) {
